@@ -40,7 +40,7 @@ server.use(errorHandlers.server)
 // await db.sequelize.sync({logging: false})
 
 server.listen(PORT, async () => {
-  await initSequelize
+  await initSequelize()
   console.log("🚀 Server is running on port ", PORT)
 })
 
