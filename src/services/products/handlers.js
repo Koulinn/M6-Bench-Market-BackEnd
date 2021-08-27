@@ -97,7 +97,6 @@ const getAll = async (req, res, next) => {
   
   const getByCategory = async (req, res, next) => {
     try {
-      console.log(req.params.categoryId, '<<<<<<<<<<<<<<<<<<<<<<')
       const data = await Product.findAll({
         // include: Category,
         where: {
