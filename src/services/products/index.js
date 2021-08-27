@@ -22,5 +22,8 @@ router
   .get(product.getSingle)
   .put(product.update)
   .delete(product.deleteSingle)
+router
+  .route("/pagination/:filter/:offset")
+  .get(product.pagination)
 
 export default router

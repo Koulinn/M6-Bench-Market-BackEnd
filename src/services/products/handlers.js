@@ -101,7 +101,7 @@ const getAll = async (req, res, next) => {
         // include: Category,
         where: {
           categoryId: req.params.categoryId,
-        },
+        }
       })
       if (data) {
         res.status(200).send(data)
@@ -113,6 +113,30 @@ const getAll = async (req, res, next) => {
       next(error)
     }
   }
+
+  const pagination = async(req,res,next)=>{
+    try {
+      const {offset, filter} = req.params
+      console.log(offset, filter, 'off, fil')
+      const data = await Product.findAll({
+        include: Category,
+        where: {
+          categoryId: filter
+        },
+        limit: 5,
+        offset,
+      })
+      if (data) {
+        res.status(200).send(data)
+      } else {
+        res.status(404).send("not found")
+      }
+    } catch (error) {
+      console.log(error)
+      next(error)
+    }
+
+  }
   
   
   const product = {
@@ -121,7 +145,8 @@ const getAll = async (req, res, next) => {
     getSingle: getSingle,
     update:update,
     deleteSingle: deleteSingle,
-    getByCategory: getByCategory
+    getByCategory: getByCategory,
+    pagination: pagination
   }
   
   export default product

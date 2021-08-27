@@ -18,9 +18,6 @@ const Comments = sequelize.define("comments",
       allowNull: false,
     }
   },
-  {
-    timestamps: false
-  }
 )
 
 export default Comments
