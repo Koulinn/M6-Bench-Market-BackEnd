@@ -117,6 +117,8 @@ const getByCategory = async (req, res, next) => {
 const pagination = async (req, res, next) => {
   try {
     const { offset, filter, value } = req.params
+    const {order} = req.query
+    console.log(req.query)
 
     const data = await Product.findAll({
       include: Category,
@@ -125,7 +127,7 @@ const pagination = async (req, res, next) => {
       } : {},
       limit: 5,
       offset,
-      order: filter !== 'price' ? [['updatedAt', 'ASC']] : [['price', 'DESC']]
+      order: filter !== 'price' ? [['updatedAt', order.toUpperCASE()]] : [['price', order.toUpperCASE()]]
     })
     if (data) {
       res.status(200).send(data)
