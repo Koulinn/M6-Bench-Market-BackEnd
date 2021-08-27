@@ -11,9 +11,6 @@ const Cart = sequelize.define("cart",
             autoIncrement: true
         } 
     },
-    {
-        timestamps: false
-    }
 )
 
 

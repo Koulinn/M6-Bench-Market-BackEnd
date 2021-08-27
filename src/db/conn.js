@@ -11,7 +11,7 @@ const sequelize = new Sequelize(PGDATABASE, PGUSERNAME, PGPASSWORD, {
     ssl: {
       require: true,
       rejectUnauthorized: false
-    }
+    } 
   }
 })
 
