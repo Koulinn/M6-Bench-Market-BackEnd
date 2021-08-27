@@ -23,7 +23,7 @@ router
   .put(product.update)
   .delete(product.deleteSingle)
 router
-  .route("/pagination/:filter/:offset")
+  .route("/pagination/:filter/:offset/:value")
   .get(product.pagination)
 
 export default router

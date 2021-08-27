@@ -116,15 +116,15 @@ const getAll = async (req, res, next) => {
 
   const pagination = async(req,res,next)=>{
     try {
-      const {offset, filter} = req.params
-      console.log(offset, filter, 'off, fil')
+      const {offset, filter, value} = req.params
       const data = await Product.findAll({
         include: Category,
         where: {
-          categoryId: filter
+          [`${filter}`]:{[Op.substring]: `${value}`}
         },
         limit: 5,
         offset,
+        order:[['updatedAt', 'ASC']]
       })
       if (data) {
         res.status(200).send(data)
