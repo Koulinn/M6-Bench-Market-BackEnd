@@ -35,10 +35,18 @@ const getAll = async (req, res, next) => {
   const create = async (req, res, next) => {
     try {
       const {categoryId} = req.params
-      const data = await Product.create({...req.body, categoryId})
-      res.send(data)
+      const category = await Category.findOne({where: {id: categoryId}})
+      if(!category){
+        res.status(404).send({msg: `Category with ${req.params.categoryId} doesn't exist`})
+     
+      } else {
+        const data = await Product.create({...req.body, categoryId})
+        res.status(201).send(data)
+
+      }
+     
     } catch (error) {
-      console.log(error)
+      // console.log(error)
       next(error)
     }
   }
@@ -74,13 +82,34 @@ const getAll = async (req, res, next) => {
     }
   }
   
+  const getByCategory = async (req, res, next) => {
+    try {
+      console.log(req.params.categoryId, '<<<<<<<<<<<<<<<<<<<<<<')
+      const data = await Product.findAll({
+        // include: Category,
+        where: {
+          categoryId: req.params.categoryId,
+        },
+      })
+      if (data) {
+        res.status(200).send(data)
+      } else {
+        res.status(404).send("not found")
+      }
+    } catch (error) {
+      console.log(error)
+      next(error)
+    }
+  }
+  
   
   const product = {
     create: create,
     getAll: getAll,
     getSingle: getSingle,
     update:update,
-    deleteSingle: deleteSingle
+    deleteSingle: deleteSingle,
+    getByCategory: getByCategory
   }
   
   export default product

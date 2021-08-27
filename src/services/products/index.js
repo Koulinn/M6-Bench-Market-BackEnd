@@ -9,9 +9,13 @@ router
   .route("/")
   .get(product.getAll)
 
-  router
-    .route("/:categoryId")
+router
+  .route("/:categoryId")
   .post(product.create)
+
+router
+  .route("/category/:categoryId")
+  .get(product.getByCategory)
 
 router
   .route("/:id")
