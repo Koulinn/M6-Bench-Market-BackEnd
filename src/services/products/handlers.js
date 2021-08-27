@@ -140,6 +140,20 @@ const pagination = async (req, res, next) => {
 
 }
 
+const uploadProdImg = async (req, res, next) => {
+  try {
+      const data = await Product.update({image: req.file.path}, {
+          where: { id: req.params.id },
+          returning: true,
+      })
+      res.send(data[1][0])
+  } catch (error) {
+      console.log(error)
+      next(error)
+  }
+
+}
+
 
 const product = {
   create: create,
@@ -148,7 +162,8 @@ const product = {
   update: update,
   deleteSingle: deleteSingle,
   getByCategory: getByCategory,
-  pagination: pagination
+  pagination: pagination,
+  uploadProdImg: uploadProdImg
 }
 
 export default product

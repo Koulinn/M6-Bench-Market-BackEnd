@@ -1,5 +1,8 @@
 import express from "express"
 import product from "./handlers.js"
+import lib from '../../lib/index.js'
+import multer from "multer"
+const {cloudStorage} = lib
 
 
 
@@ -22,6 +25,11 @@ router
   .get(product.getSingle)
   .put(product.update)
   .delete(product.deleteSingle)
+
+router
+  .route("/image/:id")
+  .put(multer({ storage: cloudStorage }).single('image'), product.uploadProdImg)
+  
 router
   .route("/pagination/:filter/:offset/:value")
   .get(product.pagination)
