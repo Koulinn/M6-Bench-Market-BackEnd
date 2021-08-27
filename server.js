@@ -7,6 +7,7 @@ import userRouter from "./src/services/user/index.js"
 import commentsRouter from "./src/services/comments/index.js"
 import cartRouter from "./src/services/cart/index.js"
 import lib from "./src/lib/index.js"
+import { initSequelize } from "./src/db/conn.js"
 
 const {errorHandlers, serverConfig} = lib
 
@@ -35,24 +36,15 @@ server.use(errorHandlers.server)
 
 
 
-await db.sequelize.sync({logging: false})
 
-server.listen(PORT, () => console.log("🚀 Server is running on port ", PORT))
+// await db.sequelize.sync({logging: false})
+
+server.listen(PORT, async () => {
+  await initSequelize
+  console.log("🚀 Server is running on port ", PORT)
+})
 
 server.on("error", (error) =>
   console.log("🚀 Server is crashed due to ", error)
 )
 
-
-// const dbConn = async () => await db.sequelize
-//   .sync()
-//   .then(() => {
-//     server.listen(PORT, () =>
-//       console.log("🚀 Server is running on port ", PORT)
-//     )
-
-//     server.on("error", (error) =>
-//       console.log("🚀 Server is crashed due to ", error)
-//     )
-//   })
-//   .catch((error) => console.log(error))

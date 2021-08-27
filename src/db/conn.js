@@ -1,4 +1,5 @@
-import { Sequelize } from "sequelize"
+import pkg from "sequelize"
+const { QueryTypes, Sequelize } = pkg
 
 const { PGDATABASE, PGUSERNAME, PGPASSWORD, PGHOST, PGPORT } = process.env
 
@@ -6,18 +7,25 @@ const sequelize = new Sequelize(PGDATABASE, PGUSERNAME, PGPASSWORD, {
   host: PGHOST,
   port: PGPORT,
   dialect: "postgres",
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false
+    }
+  }
 })
 
-const testConnection = async () => {
+export const initSequelize = async () => {
   try {
-    sequelize.authenticate().then(() => {
-      console.log("db is authenticated")
-    })
+    await sequelize.authenticate()
+    await sequelize.query(schemas, { type: QueryTypes.SELECT})
+    await sequelize.sync({logging: false})
+    console.log("DB Initialized")
   } catch (error) {
     console.log(error)
   }
 }
 
-testConnection()
+
 
 export default sequelize
