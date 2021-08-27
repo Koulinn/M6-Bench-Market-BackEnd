@@ -118,7 +118,6 @@ const pagination = async (req, res, next) => {
   try {
     const { offset, filter, value } = req.params
     const {order} = req.query
-    console.log(req.query)
 
     const data = await Product.findAll({
       include: Category,
