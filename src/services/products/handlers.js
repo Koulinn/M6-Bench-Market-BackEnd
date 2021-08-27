@@ -126,7 +126,7 @@ const pagination = async (req, res, next) => {
       } : {},
       limit: 5,
       offset,
-      order: filter !== 'price' ? [['updatedAt', order.toUpperCASE()]] : [['price', order.toUpperCASE()]]
+      order: filter !== 'price' ? [['updatedAt', order.toUpperCase()]] : [['price', order.toUpperCase()]]
     })
     if (data) {
       res.status(200).send(data)
