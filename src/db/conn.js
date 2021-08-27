@@ -19,7 +19,7 @@ export const initSequelize = async () => {
   try {
     await sequelize.authenticate()
     // await sequelize.query(schemas, { type: QueryTypes.SELECT})
-    await sequelize.sync()
+    await sequelize.sync({force:true})
     console.log("DB Initialized")
   } catch (error) {
     console.log(error)
