@@ -8,15 +8,23 @@ const router = express.Router()
 router
   .route("/")
   .get(product.getAll)
-  
-  router
-    .route("/:userId")
-    .get(product.cartTotal)
-    
+
+router
+  .route("/:userId")
+  .get(product.cartTotal)
+
 router
   .route("/:userId/:productId")
   .post(product.addProduct)
-  .delete(product.deleteSingle)
-  // .put(product.update)
+
+// .put(product.update)
+
+router
+  .route("/:userId/:id")
+  .delete(product.deleteSingleItem)
+
+router
+  .route("/:userId/:productId/products")
+  .delete(product.deleteAllSameProd)
 
 export default router
