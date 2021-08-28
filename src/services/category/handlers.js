@@ -32,9 +32,7 @@ const getSingle = async (req, res, next) => {
 
 const create = async (req, res, next) => {
     try {
-        console.log('post category ')
         const data = await Category.create(req.body)
-        console.log(data)
         res.send(data)
     } catch (error) {
         console.log(error)
@@ -75,8 +73,6 @@ const deleteSingle = async (req, res, next) => {
 
 const search = async (req, res, next) => {
     try {
-        console.log(req.query.search, 'search')
-        console.log(req.body.category, 'body category')
         if (req.query.search || req.body.category) {
             const data = await Category.findOne({
                 where: { category: { [Op.iLike]: req.query.search ? req.query.search : req.body.category } }

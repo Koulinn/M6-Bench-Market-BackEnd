@@ -12,7 +12,7 @@ const getAll = async (req, res, next) => {
   try {
     if (req.query.offset) {
       const { offset, filter, value, order } = req.query
-      console.log('inside if query')
+
       const data = await Product.findAll({
         include: Category,
         where: filter !== 'price' ? {
@@ -67,7 +67,7 @@ const create = async (req, res, next) => {
     }
 
   } catch (error) {
-    // console.log(error)
+    console.log(error)
     next(error)
   }
 }
