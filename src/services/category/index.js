@@ -1,17 +1,17 @@
 import express from "express"
-import comment from "./handlers.js"
+import category from "./handlers.js"
 
 const router = express.Router()
 
 router
   .route("/")
-  .get(comment.getAll)
-  .post(comment.create)
+  .get(category.search, category.getAll)
+  .post(category.search, category.create)
 
 router
   .route("/:id")
-  .get(comment.getSingle)
-  .put(comment.update)
-  .delete(comment.deleteSingle)
+  .get(category.getSingle)
+  .put(category.update)
+  .delete(category.deleteSingle)
 
 export default router
