@@ -81,7 +81,11 @@ const search = async (req, res, next) => {
             const data = await Category.findOne({
                 where: { category: { [Op.iLike]: req.query.search ? req.query.search : req.body.category } }
             })
-            res.send(data)
+            if(data){
+                res.send(data)
+            } else {
+                next()
+            }
             
         } else {
             next()
