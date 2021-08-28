@@ -30,8 +30,4 @@ router
   .route("/image/:id")
   .put(multer({ storage: cloudStorage }).single('image'), product.uploadProdImg)
   
-router
-  .route("/pagination/:filter/:offset/:value")
-  .get(product.pagination)
-
 export default router

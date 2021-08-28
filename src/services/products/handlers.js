@@ -10,10 +10,25 @@ const { Op } = s
 
 const getAll = async (req, res, next) => {
   try {
-    const data = await Product.findAll({
-      include: [Category, { model: Comments, include: User }],
-    })
-    res.status(200).send(data)
+    if (req.query.offset) {
+      const { offset, filter, value, order } = req.query
+      console.log('inside if query')
+      const data = await Product.findAll({
+        include: Category,
+        where: filter !== 'price' ? {
+          [`${filter}`]: { [Op.substring]: `${value}` }
+        } : {},
+        limit: 4,
+        offset,
+        order: filter !== 'price' ? [['updatedAt', order.toUpperCase()]] : [['price', order.toUpperCase()]]
+      })
+      res.send(data).status(200)
+    } else {
+      const data = await Product.findAll({
+        include: [Category, { model: Comments, include: User }],
+      })
+      res.status(200).send(data)
+    }
   } catch (error) {
     console.log(error)
     next(error)
@@ -114,42 +129,17 @@ const getByCategory = async (req, res, next) => {
   }
 }
 
-const pagination = async (req, res, next) => {
-  try {
-    const { offset, filter, value } = req.params
-    const {order} = req.query
-
-    const data = await Product.findAll({
-      include: Category,
-      where: filter !== 'price' ? {
-        [`${filter}`]: { [Op.substring]: `${value}` }
-      } : {},
-      limit: 5,
-      offset,
-      order: filter !== 'price' ? [['updatedAt', order.toUpperCase()]] : [['price', order.toUpperCase()]]
-    })
-    if (data) {
-      res.status(200).send(data)
-    } else {
-      res.status(404).send("not found")
-    }
-  } catch (error) {
-    console.log(error)
-    next(error)
-  }
-
-}
 
 const uploadProdImg = async (req, res, next) => {
   try {
-      const data = await Product.update({image: req.file.path}, {
-          where: { id: req.params.id },
-          returning: true,
-      })
-      res.send(data[1][0])
+    const data = await Product.update({ image: req.file.path }, {
+      where: { id: req.params.id },
+      returning: true,
+    })
+    res.send(data[1][0])
   } catch (error) {
-      console.log(error)
-      next(error)
+    console.log(error)
+    next(error)
   }
 
 }
@@ -162,7 +152,6 @@ const product = {
   update: update,
   deleteSingle: deleteSingle,
   getByCategory: getByCategory,
-  pagination: pagination,
   uploadProdImg: uploadProdImg
 }
 
