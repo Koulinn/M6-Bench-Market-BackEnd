@@ -73,13 +73,33 @@ const deleteSingle = async (req, res, next) => {
     }
 }
 
+const search = async (req, res, next) => {
+    try {
+        console.log(req.query.search, 'search')
+        console.log(req.body.category, 'body category')
+        if (req.query.search || req.body.category) {
+            const data = await Category.findOne({
+                where: { category: { [Op.iLike]: req.query.search ? req.query.search : req.body.category } }
+            })
+            res.send(data)
+            
+        } else {
+            next()
+        }
+    } catch (error) {
+        console.log(error)
+        next(error)
+    }
+}
 
-const comment = {
+
+const category = {
     create: create,
     getAll: getAll,
     getSingle: getSingle,
     update: update,
-    deleteSingle: deleteSingle
+    deleteSingle: deleteSingle,
+    search: search
 }
 
-export default comment
+export default category
