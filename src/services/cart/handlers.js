@@ -103,6 +103,7 @@ const deleteAllSameProd = async (req, res, next) => {
 
 const deleteSingleItem = async (req, res, next) => {
   try {
+    // cartId
     const { userId, id } = req.params
     const rows = await Cart.destroy({
       where: {
