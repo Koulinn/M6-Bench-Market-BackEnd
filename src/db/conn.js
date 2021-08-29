@@ -7,19 +7,19 @@ const sequelize = new Sequelize(PGDATABASE, PGUSERNAME, PGPASSWORD, {
   host: PGHOST,
   port: PGPORT,
   dialect: "postgres",
-  // dialectOptions: {
-  //   ssl: {
-  //     require: true,
-  //     rejectUnauthorized: false
-  //   } 
-  // }
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false
+    } 
+  }
 })
 
 export const initSequelize = async () => {
   try {
     await sequelize.authenticate()
-    // await sequelize.query(schemas, { type: QueryTypes.SELECT})
-    await sequelize.sync()
+    await sequelize.query(schemas, { type: QueryTypes.SELECT})
+    await sequelize.sync({force:true})
     console.log("DB Initialized")
   } catch (error) {
     console.log(error)
