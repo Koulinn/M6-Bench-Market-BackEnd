@@ -81,7 +81,7 @@ const update = async (req, res, next) => {
   }
 }
 
-const deleteAllSameProd = async (req, res, next) => {
+const deleteSingleItem = async (req, res, next) => {
   try {
     const { userId, productId } = req.params
     const rows = await Cart.destroy({
@@ -89,6 +89,7 @@ const deleteAllSameProd = async (req, res, next) => {
         userId,
         productId
       },
+      limit: 1
     })
     if (rows > 0) {
       res.status(204).send()
@@ -101,33 +102,12 @@ const deleteAllSameProd = async (req, res, next) => {
   }
 }
 
-const deleteSingleItem = async (req, res, next) => {
-  try {
-    // cartId
-    const { userId, id } = req.params
-    const rows = await Cart.destroy({
-      where: {
-        userId,
-        id
-      }
-    })
-    if (rows > 0) {
-      res.status(204).send()
-    } else {
-      res.status(404).send("not found")
-    }
-  } catch (error) {
-    console.log(error)
-    next(error)
-  }
-}
 
 const cart = {
   addProduct: addProduct,
   getAll: getAll,
   cartTotal: cartTotal,
   update: update,
-  deleteAllSameProd: deleteAllSameProd,
   deleteSingleItem: deleteSingleItem
 }
 

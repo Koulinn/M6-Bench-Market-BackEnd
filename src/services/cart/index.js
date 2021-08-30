@@ -16,12 +16,6 @@ router
 router
   .route("/:userId/:productId")
   .post(product.addProduct)
-  .delete(product.deleteAllSameProd)
-
-// .put(product.update)
-
-router
-  .route("/:userId/:id")
   .delete(product.deleteSingleItem)
 
 
